@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  nest:
+    build:
+      context: .
+      dockerfile: Dockerfile-prod
+    container_name: nest
+    env_file:
+      - .env
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Docker-nginx
+    container_name: nest-nginx
+    depends_on:
+      - nest
+    env_file:
+      - .env
+    ports:
+      - '80:80'
+      - '443:443'
+
+volumes:
+  nest-data:
