@@ -14,7 +14,7 @@ async function bootstrap() {
 
   setupSwagger(app);
 
-  const PORT = process.env.NEST_PORT ?? 3000;
+  const PORT = process.env.PORT ?? 3000;
   await app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}/${API_PREFIX}`);
   });
