@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './modules/app/app.module';
+import { setupSwagger } from './swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,7 +12,9 @@ async function bootstrap() {
   const API_PREFIX = 'api/v1';
   app.setGlobalPrefix(API_PREFIX);
 
-  const PORT = process.env.PORT ?? 3000;
+  setupSwagger(app);
+
+  const PORT = process.env.NEST_PORT ?? 3000;
   await app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}/${API_PREFIX}`);
   });
