@@ -7,7 +7,9 @@ services:
       dockerfile: Dockerfile-prod
     container_name: nest
     env_file:
-      - .env
+      - .env.prod
+    ports:
+      - '${PORT}:${DOCKER_NEST_PORT}'
 
   nginx:
     build:
@@ -17,7 +19,7 @@ services:
     depends_on:
       - nest
     env_file:
-      - .env
+      - .env.prod
     ports:
       - '80:80'
       - '443:443'

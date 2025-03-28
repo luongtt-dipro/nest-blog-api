@@ -5,9 +5,9 @@ services:
       dockerfile: Dockerfile
     container_name: nest
     env_file:
-      - .env
+      - .env.dev
     ports:
-      - '3000:3000' # Mở cổng cho NestJS
+      - '3333:3000'
 
   nginx:
     build:
@@ -16,9 +16,7 @@ services:
     container_name: nest-nginx
     depends_on:
       - nest
-    environment:
-      - NEST_HOST=nest
-      - NEST_PORT=3000 # Đảm bảo trỏ đúng
-      - NGINX_MAX_BODY=100M
+    env_file:
+      - .env.dev
     ports:
-      - '8080:80' # Nginx chạy ở 80 nhưng mở port 8080 trên host
+      - '8080:80'
