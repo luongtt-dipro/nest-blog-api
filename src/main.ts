@@ -23,15 +23,18 @@ async function bootstrap() {
   // Middleware Log Request
   app.use((req, res, next) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const { method, url, ip, body } = req;
+    const { method, url, body } = req;
     const startTime = Date.now();
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+    const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     res.on('finish', () => {
       const duration = Date.now() - startTime;
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      let logMessage = `${method} ${url} - ${res.statusCode} (${duration}ms) from ${ip}`;
+      let logMessage = `${method} ${url} - ${res.statusCode} (${duration}ms) from ${clientIp}`;
 
       // Only log body with POST, PUT
       if (['POST', 'PUT'].includes(method) && Object.keys(body).length > 0) {
