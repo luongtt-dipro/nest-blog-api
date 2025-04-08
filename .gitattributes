@@ -1,3 +1,4 @@
 *.js linguist-vendored
+*.mjs linguist-vendored
 *.sh linguist-vendored
 Dockerfile linguist-vendored
