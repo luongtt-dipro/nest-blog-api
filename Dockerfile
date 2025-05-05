@@ -5,7 +5,7 @@ RUN apk add --update python3 make g++\
 
 WORKDIR /app
 
-ENV NODE_ENV development
+ENV NODE_ENV=development
 COPY package.json yarn.lock ./
 RUN yarn
 

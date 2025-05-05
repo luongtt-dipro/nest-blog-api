@@ -37,7 +37,11 @@ async function bootstrap() {
       let logMessage = `${method} ${url} - ${res.statusCode} (${duration}ms) from ${clientIp}`;
 
       // Only log body with POST, PUT
-      if (['POST', 'PUT'].includes(method) && Object.keys(body).length > 0) {
+      if (
+        ['POST', 'PUT'].includes(method) &&
+        body &&
+        Object.keys(body).length > 0
+      ) {
         logMessage += ` | Body: ${JSON.stringify(sanitizeBody(body))}`;
       }
 
