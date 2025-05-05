@@ -11,6 +11,8 @@ Có hai trường hợp:
 
 ---
 
+Nest Server đang listen PORT 3333
+
 ## 2. Cấu Hình Khi Nginx Chạy Trong Docker
 
 ### **2.1. Cấu Hình `docker-compose.yml`**
@@ -50,6 +52,25 @@ server {
 
     location / {
         proxy_pass http://nest:3333;  # Gọi trực tiếp container "nest"
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+}
+```
+
+Hoặc
+
+```nginx
+server {
+    listen 80;
+    server_name _;
+    root /app/public;
+    client_max_body_size ${NGINX_MAX_BODY};
+
+    location / {
+        proxy_pass http://localhost:3333;  # Gọi gián tiếp với localhost:PORT (PORT mà Dockerfile đã Expose, trong ví dụ này là PORT==3000)
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
